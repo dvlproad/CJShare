@@ -1,0 +1,1 @@
+../../../CJSortedAndSearchUtil/CJSortedAndSearchUtil/Models/Search/CJSearchResult.h

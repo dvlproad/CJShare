@@ -1,0 +1,9 @@
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/CJBaseSearchViewController" "${PODS_ROOT}/Headers/Public/CJFMDBFileManager" "${PODS_ROOT}/Headers/Public/CJSortedAndSearchUtil" "${PODS_ROOT}/Headers/Public/FMDB" "${PODS_ROOT}/Headers/Public/JSONModel" "${PODS_ROOT}/Headers/Public/NSOperationQueueUtil" "${PODS_ROOT}/Headers/Public/PinYin4Objc" "${PODS_ROOT}/Headers/Public/PureLayout"
+LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/CJBaseSearchViewController" "$PODS_CONFIGURATION_BUILD_DIR/CJFMDBFileManager" "$PODS_CONFIGURATION_BUILD_DIR/CJSortedAndSearchUtil" "$PODS_CONFIGURATION_BUILD_DIR/FMDB" "$PODS_CONFIGURATION_BUILD_DIR/JSONModel" "$PODS_CONFIGURATION_BUILD_DIR/NSOperationQueueUtil" "$PODS_CONFIGURATION_BUILD_DIR/PinYin4Objc" "$PODS_CONFIGURATION_BUILD_DIR/PureLayout"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/CJBaseSearchViewController" -isystem "${PODS_ROOT}/Headers/Public/CJFMDBFileManager" -isystem "${PODS_ROOT}/Headers/Public/CJSortedAndSearchUtil" -isystem "${PODS_ROOT}/Headers/Public/FMDB" -isystem "${PODS_ROOT}/Headers/Public/JSONModel" -isystem "${PODS_ROOT}/Headers/Public/NSOperationQueueUtil" -isystem "${PODS_ROOT}/Headers/Public/PinYin4Objc" -isystem "${PODS_ROOT}/Headers/Public/PureLayout"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"CJBaseSearchViewController" -l"CJFMDBFileManager" -l"CJSortedAndSearchUtil" -l"FMDB" -l"JSONModel" -l"NSOperationQueueUtil" -l"PinYin4Objc" -l"PureLayout" -l"sqlite3" -framework "UIKit"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_ROOT = ${SRCROOT}/Pods
