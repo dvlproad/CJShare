@@ -10,7 +10,13 @@
 #import <CJSortedAndSearchUtil/CJSectionDataModel.h>
 #import <PureLayout/PureLayout.h>
 
-@interface FileListViewController ()
+#import "CJPreviewController.h"
+#import "CJAllPreviewViewController.h"
+
+@interface FileListViewController () {
+    
+}
+@property (nonatomic, strong) CJAllPreviewViewController *previewController;
 
 @end
 
@@ -21,6 +27,8 @@
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = NSLocalizedString(@"我的文档", nil);
     
+    self.dataModelSearchSelector = @selector(fileName);
+    
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     
     self.originSectionDataModels = [self getDataFromDB];
@@ -30,22 +38,20 @@
 - (NSMutableArray<CJSectionDataModel *> *)getDataFromDB {
     NSMutableArray *sectionDatas = [[NSMutableArray alloc] init];
     
-    NSString *localFileType = [NSString stringWithFormat:@"%ld", CJFileTypeLocal];
-    NSMutableArray *localFiles = [FileFMDBUtil selectInfosWhereFileType:localFileType];
+    NSMutableArray *localFiles = [CJFileFMDBFileManager selectLocalInfos];
     if ([localFiles count] > 0) {
         CJSectionDataModel *sectionDataModel = [[CJSectionDataModel alloc] init];
-        sectionDataModel.type = CJFileTypeLocal;
+        sectionDataModel.type = CJFileSourceTypeLocalSandbox;
         sectionDataModel.theme = @"本地文件";
         sectionDataModel.values = localFiles;
         
         [sectionDatas addObject:sectionDataModel];
     }
     
-    NSString *networkFileType = [NSString stringWithFormat:@"%ld", CJFileTypeNetwork];
-    NSMutableArray *networkFiles = [FileFMDBUtil selectInfosWhereFileType:networkFileType];
+    NSMutableArray *networkFiles = [CJFileFMDBFileManager selectNetworkInfos];
     if ([networkFiles count] > 0) {
         CJSectionDataModel *sectionDataModel = [[CJSectionDataModel alloc] init];
-        sectionDataModel.type = CJFileTypeNetwork;
+        sectionDataModel.type = CJFileSourceTypeNetwork;
         sectionDataModel.theme = @"网络文件";
         sectionDataModel.values = networkFiles;
         
@@ -124,39 +130,19 @@
     
     self.previewFileModel = fileModel;
     
-    QLPreviewController *previewController = [[QLPreviewController alloc] init];
-    previewController.dataSource = self;
-    previewController.delegate = self;
+    /*
+    CJPreviewController *previewController = [[CJPreviewController alloc] init];
+    previewController.fileModels = @[fileModel];
     previewController.currentPreviewItemIndex = 0;
+    */
+    
+    CJAllPreviewViewController *previewController = [[CJAllPreviewViewController alloc] init];
+    UIViewController *viewController = [previewController previewFileModels:@[fileModel] andShowItemIndex:0];
+    self.previewController = previewController; //强制持有防止,里面的delegate被释放
     
 //    [self presentViewController:previewController animated:YES completion:nil];
-    [self.navigationController pushViewController:previewController animated:YES];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
-
-
-#pragma mark - QLPreviewControllerDataSource && QLPreviewControllerDelegate
-- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
-    return 1;
-}
-
-- (id<QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
-    FileModel *fileModle = self.previewFileModel;
-    return [NSURL URLWithString:fileModle.fileUrl];
-}
-
-- (CGRect)previewController:(QLPreviewController *)controller frameForPreviewItem:(id<QLPreviewItem>)item inSourceView:(UIView *__autoreleasing  _Nullable *)view {
-    //return self.view.bounds;
-    return CGRectMake(100, 100, 200, 300);
-}
-
-- (void)previewControllerWillDismiss:(QLPreviewController *)controller {
-    FileModel *fileModle = self.previewFileModel;
-    NSLog(@"self.fileURL = %@", fileModle.fileUrl);
-    
-    NSString *fileName = [fileModle.fileUrl lastPathComponent];
-    self.navigationItem.title = [NSString stringWithFormat:@"刚显示的为:%@", fileName];
-}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

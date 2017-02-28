@@ -20,6 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.showTableViewSectionHeader = YES;
     [self cj_setupViews];
     
     __weak typeof(self)weakSelf = self;
@@ -148,22 +149,23 @@
 - (void)cj_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath isSearching:(BOOL)isSearchingTableView
 {
     NSLog(@"点击了%zd-%zd", indexPath.section, indexPath.row);
-    //    <#statements#>
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    /*
-    NSArray<CJSectionDataModel *> *sectionDataModels = nil;
-    if (!isSearchingTableView) {
-        sectionDataModels = self.originSectionDataModels;
-    } else {
-        sectionDataModels = self.resultSectionDataModels;
+    if (self.didSelectCompleteBlock) {
+        NSArray<CJSectionDataModel *> *sectionDataModels = nil;
+        if (!isSearchingTableView) {
+            sectionDataModels = self.originSectionDataModels;
+        } else {
+            sectionDataModels = self.resultSectionDataModels;
+        }
+        
+        CJSectionDataModel *sectionDataModel = [sectionDataModels objectAtIndex:indexPath.section];
+        id dataModel = [sectionDataModel.values objectAtIndex:indexPath.row];
+        
+        //NSLog(@"dataModel.name = %@", dataModel.name);
+        
+        self.didSelectCompleteBlock(self, dataModel);
     }
-    
-    CJSectionDataModel *sectionDataModel = [sectionDataModels objectAtIndex:indexPath.section];
-    id dataModel = [sectionDataModel.values objectAtIndex:indexPath.row];
-    
-    NSLog(@"dataModel.name = %@", dataModel.name);
-    */
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -183,7 +185,7 @@
 
 //header
 - (CGFloat)cj_tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 44;
+    return self.showTableViewSectionHeader ? 44 : 0;
 }
 
 - (UIView *)cj_tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

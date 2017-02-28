@@ -2,10 +2,12 @@ platform :ios, '7.0'
 #use_frameworks!
 
 target 'CJShareDemo' do
-    pod 'CJBaseSearchViewController', '~> 0.0.2'    #已包含pod 'CJSortedAndSearchUtil', '~> 0.0.3'
-    pod 'CJFMDBFileManager', '~> 0.0.8'
+    pod 'CJBaseSearchViewController', '~> 0.0.3'    #已包含pod 'CJSortedAndSearchUtil', '~> 0.0.3'
+    pod 'CJFMDBFileManager', '~> 0.0.9'
     pod 'JSONModel', '~> 1.7.0'
     pod 'PureLayout', '~> 3.0.2'
+    
+    pod 'MWPhotoBrowser', '~> 2.1.2'
 end
 
 target 'CJShareDemoTests' do

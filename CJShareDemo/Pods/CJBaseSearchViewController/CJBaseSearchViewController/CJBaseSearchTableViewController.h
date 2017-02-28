@@ -12,6 +12,7 @@
     
 }
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) BOOL showTableViewSectionHeader;  /**< 是否显示每个section的头(默认YES) */
 
 //以下方法可重写，也可不重写
 - (void)cj_setupViews;

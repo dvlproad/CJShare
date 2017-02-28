@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		18CD0D07261D1EE9A278BE62 /* libPods-CJShareDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C62D4E8FC9DC0D9D5D3C297D /* libPods-CJShareDemoTests.a */; };
 		230EDF17B9C972CD0419C8C5 /* libPods-CJShareDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F7C134D58F4015E9FF3C10 /* libPods-CJShareDemo.a */; };
+		780C524D1E6580DF00104AB9 /* CJAllPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 780C524C1E6580DF00104AB9 /* CJAllPreviewViewController.m */; };
 		786227EB1E110CA30088E94E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 786227EA1E110CA30088E94E /* main.m */; };
 		786227EE1E110CA30088E94E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 786227ED1E110CA30088E94E /* AppDelegate.m */; };
 		786227F11E110CA30088E94E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 786227F01E110CA30088E94E /* ViewController.m */; };
@@ -21,19 +22,23 @@
 		786228251E11115E0088E94E /* PreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 786228231E11115E0088E94E /* PreviewController.xib */; };
 		786228291E1115570088E94E /* FileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 786228271E1115570088E94E /* FileListViewController.m */; };
 		7862282A1E1115570088E94E /* FileListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 786228281E1115570088E94E /* FileListViewController.xib */; };
+		78B41A041E6563590017D133 /* CJFileFMDBFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B419FA1E6563590017D133 /* CJFileFMDBFileManager.m */; };
+		78B41A051E6563590017D133 /* CJLocalFileTableSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B419FC1E6563590017D133 /* CJLocalFileTableSQL.m */; };
+		78B41A061E6563590017D133 /* CJNetworkFileTableSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B419FE1E6563590017D133 /* CJNetworkFileTableSQL.m */; };
+		78B41A071E6563590017D133 /* CJBaseFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B41A011E6563590017D133 /* CJBaseFileModel.m */; };
+		78B41A081E6563590017D133 /* CJFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B41A031E6563590017D133 /* CJFileModel.m */; };
+		78B41A0F1E657C4F0017D133 /* CJPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B41A0E1E657C4F0017D133 /* CJPreviewController.m */; };
 		78C964C31E12083F00265009 /* HTML Document.html in Resources */ = {isa = PBXBuildFile; fileRef = 78C964BF1E12083F00265009 /* HTML Document.html */; };
 		78C964C41E12083F00265009 /* Image Document.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 78C964C01E12083F00265009 /* Image Document.jpg */; };
 		78C964C51E12083F00265009 /* PDF Document.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 78C964C11E12083F00265009 /* PDF Document.pdf */; };
 		78C964C61E12083F00265009 /* Text Document.txt in Resources */ = {isa = PBXBuildFile; fileRef = 78C964C21E12083F00265009 /* Text Document.txt */; };
 		78C964C91E12097700265009 /* FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C964C81E12097700265009 /* FileModel.m */; };
-		78C964CF1E123AA400265009 /* FileFMDBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 78C964CE1E123AA400265009 /* FileFMDBUtil.m */; };
 		78D36B911E27480A00F51567 /* TestDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 78D36B901E27480A00F51567 /* TestDataUtil.m */; };
 		78D36B941E2748E600F51567 /* FileModelDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 78D36B931E2748E600F51567 /* FileModelDB.m */; };
 		78D36B9A1E274CC500F51567 /* cjFileTypeExcel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 78D36B961E274CC500F51567 /* cjFileTypeExcel@2x.png */; };
 		78D36B9B1E274CC500F51567 /* cjFileTypeImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 78D36B971E274CC500F51567 /* cjFileTypeImage@2x.png */; };
 		78D36B9C1E274CC500F51567 /* cjFileTypePPT@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 78D36B981E274CC500F51567 /* cjFileTypePPT@2x.png */; };
 		78D36B9D1E274CC500F51567 /* cjFileTypeWord@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 78D36B991E274CC500F51567 /* cjFileTypeWord@2x.png */; };
-		78E952DB1E136BB600169F0A /* FileDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 78E952DA1E136BB600169F0A /* FileDataManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		509EAC71B88885A0EBBD610D /* Pods-CJShareDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CJShareDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-CJShareDemo/Pods-CJShareDemo.release.xcconfig"; sourceTree = "<group>"; };
+		780C524B1E6580DF00104AB9 /* CJAllPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJAllPreviewViewController.h; sourceTree = "<group>"; };
+		780C524C1E6580DF00104AB9 /* CJAllPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJAllPreviewViewController.m; sourceTree = "<group>"; };
 		786227E61E110CA30088E94E /* CJShareDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CJShareDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		786227EA1E110CA30088E94E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		786227EC1E110CA30088E94E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -77,14 +84,24 @@
 		786228261E1115570088E94E /* FileListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileListViewController.h; sourceTree = "<group>"; };
 		786228271E1115570088E94E /* FileListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileListViewController.m; sourceTree = "<group>"; };
 		786228281E1115570088E94E /* FileListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileListViewController.xib; sourceTree = "<group>"; };
+		78B419F91E6563590017D133 /* CJFileFMDBFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJFileFMDBFileManager.h; sourceTree = "<group>"; };
+		78B419FA1E6563590017D133 /* CJFileFMDBFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJFileFMDBFileManager.m; sourceTree = "<group>"; };
+		78B419FB1E6563590017D133 /* CJLocalFileTableSQL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJLocalFileTableSQL.h; sourceTree = "<group>"; };
+		78B419FC1E6563590017D133 /* CJLocalFileTableSQL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJLocalFileTableSQL.m; sourceTree = "<group>"; };
+		78B419FD1E6563590017D133 /* CJNetworkFileTableSQL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJNetworkFileTableSQL.h; sourceTree = "<group>"; };
+		78B419FE1E6563590017D133 /* CJNetworkFileTableSQL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJNetworkFileTableSQL.m; sourceTree = "<group>"; };
+		78B41A001E6563590017D133 /* CJBaseFileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJBaseFileModel.h; sourceTree = "<group>"; };
+		78B41A011E6563590017D133 /* CJBaseFileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJBaseFileModel.m; sourceTree = "<group>"; };
+		78B41A021E6563590017D133 /* CJFileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJFileModel.h; sourceTree = "<group>"; };
+		78B41A031E6563590017D133 /* CJFileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJFileModel.m; sourceTree = "<group>"; };
+		78B41A0D1E657C4F0017D133 /* CJPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJPreviewController.h; sourceTree = "<group>"; };
+		78B41A0E1E657C4F0017D133 /* CJPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJPreviewController.m; sourceTree = "<group>"; };
 		78C964BF1E12083F00265009 /* HTML Document.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "HTML Document.html"; sourceTree = "<group>"; };
 		78C964C01E12083F00265009 /* Image Document.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Image Document.jpg"; sourceTree = "<group>"; };
 		78C964C11E12083F00265009 /* PDF Document.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "PDF Document.pdf"; sourceTree = "<group>"; };
 		78C964C21E12083F00265009 /* Text Document.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Text Document.txt"; sourceTree = "<group>"; };
 		78C964C71E12097700265009 /* FileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileModel.h; sourceTree = "<group>"; };
 		78C964C81E12097700265009 /* FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileModel.m; sourceTree = "<group>"; };
-		78C964CD1E123AA400265009 /* FileFMDBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileFMDBUtil.h; sourceTree = "<group>"; };
-		78C964CE1E123AA400265009 /* FileFMDBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileFMDBUtil.m; sourceTree = "<group>"; };
 		78D36B8F1E27480A00F51567 /* TestDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDataUtil.h; sourceTree = "<group>"; };
 		78D36B901E27480A00F51567 /* TestDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDataUtil.m; sourceTree = "<group>"; };
 		78D36B921E2748E600F51567 /* FileModelDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileModelDB.h; sourceTree = "<group>"; };
@@ -93,8 +110,6 @@
 		78D36B971E274CC500F51567 /* cjFileTypeImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cjFileTypeImage@2x.png"; sourceTree = "<group>"; };
 		78D36B981E274CC500F51567 /* cjFileTypePPT@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cjFileTypePPT@2x.png"; sourceTree = "<group>"; };
 		78D36B991E274CC500F51567 /* cjFileTypeWord@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cjFileTypeWord@2x.png"; sourceTree = "<group>"; };
-		78E952D91E136BB600169F0A /* FileDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDataManager.h; sourceTree = "<group>"; };
-		78E952DA1E136BB600169F0A /* FileDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDataManager.m; sourceTree = "<group>"; };
 		AC485889611AC392F2986CC2 /* Pods-CJShareDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CJShareDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CJShareDemoTests/Pods-CJShareDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C62D4E8FC9DC0D9D5D3C297D /* libPods-CJShareDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CJShareDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC6C9D1F871A722255F0DED8 /* Pods-CJShareDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CJShareDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CJShareDemoTests/Pods-CJShareDemoTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -178,8 +193,9 @@
 				786227ED1E110CA30088E94E /* AppDelegate.m */,
 				786227EF1E110CA30088E94E /* ViewController.h */,
 				786227F01E110CA30088E94E /* ViewController.m */,
+				78B41A0C1E657C140017D133 /* CJPreviewController */,
+				78B419F81E6563590017D133 /* CJFileFMDBFileManager */,
 				78D36B8E1E2747F700F51567 /* TestDataUtil */,
-				78C964CC1E123A2800265009 /* Util */,
 				7862281C1E110D150088E94E /* Controllers */,
 				7862281D1E110D150088E94E /* Models */,
 				7862281E1E110D150088E94E /* Resources */,
@@ -259,6 +275,43 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		78B419F81E6563590017D133 /* CJFileFMDBFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				78B419F91E6563590017D133 /* CJFileFMDBFileManager.h */,
+				78B419FA1E6563590017D133 /* CJFileFMDBFileManager.m */,
+				78B419FB1E6563590017D133 /* CJLocalFileTableSQL.h */,
+				78B419FC1E6563590017D133 /* CJLocalFileTableSQL.m */,
+				78B419FD1E6563590017D133 /* CJNetworkFileTableSQL.h */,
+				78B419FE1E6563590017D133 /* CJNetworkFileTableSQL.m */,
+				78B419FF1E6563590017D133 /* Models */,
+			);
+			path = CJFileFMDBFileManager;
+			sourceTree = "<group>";
+		};
+		78B419FF1E6563590017D133 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				78B41A001E6563590017D133 /* CJBaseFileModel.h */,
+				78B41A011E6563590017D133 /* CJBaseFileModel.m */,
+				78B41A021E6563590017D133 /* CJFileModel.h */,
+				78B41A031E6563590017D133 /* CJFileModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		78B41A0C1E657C140017D133 /* CJPreviewController */ = {
+			isa = PBXGroup;
+			children = (
+				78B41A0D1E657C4F0017D133 /* CJPreviewController.h */,
+				78B41A0E1E657C4F0017D133 /* CJPreviewController.m */,
+				780C524B1E6580DF00104AB9 /* CJAllPreviewViewController.h */,
+				780C524C1E6580DF00104AB9 /* CJAllPreviewViewController.m */,
+			);
+			name = CJPreviewController;
+			path = ../../CJPreviewController;
+			sourceTree = "<group>";
+		};
 		78C964BE1E12083F00265009 /* Document */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,17 +321,6 @@
 				78C964C21E12083F00265009 /* Text Document.txt */,
 			);
 			path = Document;
-			sourceTree = "<group>";
-		};
-		78C964CC1E123A2800265009 /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				78C964CD1E123AA400265009 /* FileFMDBUtil.h */,
-				78C964CE1E123AA400265009 /* FileFMDBUtil.m */,
-				78E952D91E136BB600169F0A /* FileDataManager.h */,
-				78E952DA1E136BB600169F0A /* FileDataManager.m */,
-			);
-			path = Util;
 			sourceTree = "<group>";
 		};
 		78D36B8E1E2747F700F51567 /* TestDataUtil */ = {
@@ -545,13 +587,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				786228241E11115E0088E94E /* PreviewController.m in Sources */,
+				78B41A081E6563590017D133 /* CJFileModel.m in Sources */,
 				786227F11E110CA30088E94E /* ViewController.m in Sources */,
-				78E952DB1E136BB600169F0A /* FileDataManager.m in Sources */,
+				78B41A0F1E657C4F0017D133 /* CJPreviewController.m in Sources */,
+				78B41A051E6563590017D133 /* CJLocalFileTableSQL.m in Sources */,
 				78D36B941E2748E600F51567 /* FileModelDB.m in Sources */,
 				786228291E1115570088E94E /* FileListViewController.m in Sources */,
-				78C964CF1E123AA400265009 /* FileFMDBUtil.m in Sources */,
+				78B41A041E6563590017D133 /* CJFileFMDBFileManager.m in Sources */,
 				78D36B911E27480A00F51567 /* TestDataUtil.m in Sources */,
+				78B41A061E6563590017D133 /* CJNetworkFileTableSQL.m in Sources */,
 				78C964C91E12097700265009 /* FileModel.m in Sources */,
+				780C524D1E6580DF00104AB9 /* CJAllPreviewViewController.m in Sources */,
+				78B41A071E6563590017D133 /* CJBaseFileModel.m in Sources */,
 				786227EE1E110CA30088E94E /* AppDelegate.m in Sources */,
 				786227EB1E110CA30088E94E /* main.m in Sources */,
 			);

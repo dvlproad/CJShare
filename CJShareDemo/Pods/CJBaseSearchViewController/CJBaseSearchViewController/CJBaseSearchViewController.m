@@ -42,8 +42,9 @@
 - (void)doSearchText:(NSString *)searchText {
     __weak typeof(self)weakSelf = self;
     
+    NSAssert(self.dataModelSearchSelector != nil, @"self.dataModelSearchSelector 不能为空");
     NSOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{
-        weakSelf.resultSectionDataModels = [CJSearchUtil searchText:searchText inSectionDataModels:weakSelf.originSectionDataModels dataModelSearchSelector:@selector(name) supportPinyin:YES];
+        weakSelf.resultSectionDataModels = [CJSearchUtil searchText:searchText inSectionDataModels:weakSelf.originSectionDataModels dataModelSearchSelector:self.dataModelSearchSelector supportPinyin:YES];
     }];
     NSArray *operations = @[operation1];
     

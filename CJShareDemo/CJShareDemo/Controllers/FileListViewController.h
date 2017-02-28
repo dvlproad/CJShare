@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <QuickLook/QuickLook.h>
-#import "FileFMDBUtil.h"
 #import <CJBaseSearchViewController/CJBaseSearchTableViewController.h>
+#import "CJFileFMDBFileManager.h"
 
-@interface FileListViewController : CJBaseSearchTableViewController <UISearchBarDelegate, UISearchDisplayDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate> {
+@interface FileListViewController : CJBaseSearchTableViewController <UISearchBarDelegate, UISearchDisplayDelegate> {
     
 }
 

@@ -33,19 +33,17 @@ typedef NS_ENUM(NSUInteger, CJFMDBFileExistActionType) {
 /**
  *  复制数据库到某个目录下
  *
- *  @param databaseName         要复制的数据库的名字
+ *  @param databaseName         新建的数据库的名字
  *  @param subDirectoryPath     复制数据库到哪里
+ *  @param bundleDatabaseName   要复制的数据库的名字
  *  @param FMDBFileExistAction  如果存在执行什么操作
- */
-- (BOOL)copyBundleDatabase:(NSString *)databaseName
-        toSubDirectoryPath:(NSString *)subDirectoryPath
-           ifExistDoAction:(CJFMDBFileExistActionType)FMDBFileExistAction;
-
-/**
- *  重新复制新数据库（新数据库的数据库名和位置和原来的一样）
  *
+ *  return  是否新建成功
  */
-- (void)recopyDatabase;
+- (BOOL)createDatabaseWithName:(NSString *)databaseName
+            toSubDirectoryPath:(NSString *)subDirectoryPath
+          byCopyBundleDatabase:(NSString *)bundleDatabaseName
+               ifExistDoAction:(CJFMDBFileExistActionType)FMDBFileExistAction;
 
 /**
  *  创建数据库
@@ -54,6 +52,8 @@ typedef NS_ENUM(NSUInteger, CJFMDBFileExistActionType) {
  *  @param subDirectoryPath     数据库所在目录
  *  @param createTableSqls      数据表的创建语句
  *  @param FMDBFileExistAction  如果存在执行什么操作
+ *
+ *  return  是否新建成功
  */
 - (BOOL)createDatabaseWithName:(NSString *)databaseName
               subDirectoryPath:(NSString *)subDirectoryPath

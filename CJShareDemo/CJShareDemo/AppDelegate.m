@@ -9,7 +9,11 @@
 #import "AppDelegate.h"
 #import "FileListViewController.h"
 #import "PreviewController.h"
-#import "FileDataManager.h"
+#import "CJFileFMDBFileManager.h"
+#import <CJFMDBFileManager/CJFileManager+CalculateFileSize.h>
+#import "ViewController.h"
+
+#import "TestDataUtil.h"
 
 @interface AppDelegate ()
 
@@ -21,7 +25,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [FileDataManager createFileDatabaseForUserName:@"dvlproadFile.db"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //耗时的操作
+        [CJFileFMDBFileManager createDatabaseForUserName:@"dvlproadFile.db"];
+        
+        NSArray<FileModel *> *files = [TestDataUtil getTestLocalFilesInBundle];
+        for (FileModel *file in files) {
+            [CJFileFMDBFileManager insertLocalBundleFileInfo:file];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //更新界面
+        });
+    });
     
     
     return YES;
@@ -60,78 +76,112 @@
 #pragma mark -
 #pragma mark Quick Look
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
 {
-    UINavigationController *navigation = (UINavigationController *)application.keyWindow.rootViewController;
-    [navigation popToRootViewControllerAnimated:NO];
+    [self doFileInapplication:application openURL:url];
     
-    PreviewController *displayController = (PreviewController *)navigation.topViewController;
-    
-    displayController.fileURL = url;
-    
-    QLPreviewController *preview = [[QLPreviewController alloc] initWithNibName:nil bundle:nil];
-    preview.dataSource = displayController;
-    preview.delegate = displayController;
-    [preview setCurrentPreviewItemIndex:0];
-    
-    [navigation pushViewController:preview animated:YES];
     return YES;
 }
 
-#else
+
+//#else
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options
 {
+    [self doFileInapplication:application openURL:url];
+    
+    return YES;
+}
+//#endif
+
+- (void)doFileInapplication:(UIApplication *)application openURL:(NSURL *)url {
+    NSLog(@"openUrl = %@", url);
+    
+    if (![[url absoluteString] hasPrefix:@"file:"]) {
+        return;
+    }
+    
     FileModel *fileModel = [[FileModel alloc] init];
-    fileModel.fileType = [NSString stringWithFormat:@"%ld", CJFileTypeLocal];
+    fileModel.fileSourceType = CJFileSourceTypeLocalSandbox;
     fileModel.fileName = [url lastPathComponent];
-    NSString *Url = [url absoluteString];
-    fileModel.fileUrl = Url;
+    fileModel.localRelativePath = [url lastPathComponent];
+    
+    NSInteger fileSize = [CJFileManager calculateFileSizeForFilePath:[url absoluteString]];
+    NSString *fileSizeString = [CJFileManager showFileSize:fileSize unitType:CJFileSizeUnitTypeKB];
+    fileModel.fileSize = fileSizeString;
+    fileModel.fileExtension = [url pathExtension];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     fileModel.createTime = [dateFormatter stringFromDate:[NSDate date]];
     
-    BOOL insertSuccess = [FileFMDBUtil insertInfo:fileModel];
+    if ([fileSizeString integerValue] > 3 * 1000) { //大于3M
+        NSString *message = [NSString stringWithFormat:@"文件太大，请选择小于3M的文件"];
+        NSLog(@"%@", message);
+        //[UIGlobal showMessage:message];
+        
+        [[NSFileManager defaultManager] removeItemAtPath:[url absoluteString] error:nil];
+        
+    } else {
+        
+//        HPUser *user = [HPUser current];
+//        BOOL isLogin = [user.userName length] > 0 ? YES : NO;
+        BOOL isLogin = YES;
+        if (isLogin) {
+            [self application:application goFileListViewControllerAndOpenFileModel:fileModel];
+        } else {
+            [self applicationGoLoginViewController:application];
+        }
+    }
+}
+
+- (void)applicationGoLoginViewController:(UIApplication *)application {
+    /*
+    [UIGlobal showMessage:@"请先登录"];
+    
+    UINavigationController *navigation = (UINavigationController *)application.keyWindow.rootViewController;
+    
+    LoginViewController *rootView = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    [navigation setViewControllers:@[rootView] animated:YES];
+    */
+}
+
+- (void)application:(UIApplication *)application goFileListViewControllerAndOpenFileModel:(FileModel *)fileModel {
+    BOOL insertSuccess = [CJFileFMDBFileManager insertLocalSandboxFileInfo:fileModel];
     if (insertSuccess) {
         NSString *messge = [NSString stringWithFormat:@"已成功添加《%@》为附件到我的文档", fileModel.fileName];
         NSLog(@"message = %@", messge);
-        /*
-        [[[UIAlertView alloc] initWithTitle:nil
-                                    message:messge
-                                   delegate:nil
-                          cancelButtonTitle:@"确定"
-                          otherButtonTitles:nil] show];
-        */
+        //[UIGlobal showMessage:messge];
     }
     
-    UINavigationController *navigation = (UINavigationController *)application.keyWindow.rootViewController;
-//    [navigation popToRootViewControllerAnimated:NO];
-    
-    FileListViewController *fileListViewController = [[FileListViewController alloc] initWithNibName:@"FileListViewController" bundle:nil];
-    fileListViewController.previewFileModel = fileModel;
-    [navigation setViewControllers:@[fileListViewController] animated:YES];
-    
-//    QLPreviewController *preview = [[QLPreviewController alloc] initWithNibName:nil bundle:nil];
-//    preview.dataSource = fileListViewController;
-//    preview.delegate = fileListViewController;
-//    [preview setCurrentPreviewItemIndex:0];
-    
-    /*
-    PreviewController *displayController = [[PreviewController alloc] initWithNibName:@"PreviewController" bundle:nil];
-    displayController.fileURL = url;
-    
-    QLPreviewController *preview = [[QLPreviewController alloc] initWithNibName:nil bundle:nil];
-    preview.dataSource = displayController;
-    preview.delegate = displayController;
-    [preview setCurrentPreviewItemIndex:0];
-    navigation.viewControllers = @[fileListViewController];
-    */
-    
-//    [navigation pushViewController:preview animated:YES];
-    return YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UINavigationController *navigation = (UINavigationController *)application.keyWindow.rootViewController;
+        NSArray *navigationViewControllers = navigation.viewControllers;
+        if (navigationViewControllers.count == 0) {
+            return;
+        }
+        
+        NSInteger xxx = 0;
+        NSInteger count = navigationViewControllers.count;
+        for (NSInteger i = 0; i < count; i++) {
+            UIViewController *viewController = [navigationViewControllers objectAtIndex:i];
+            if ([viewController isKindOfClass:[ViewController class]]) {
+                xxx = i;
+                break;
+            }
+        }
+        ViewController *viewController = (ViewController *)[navigationViewControllers objectAtIndex:xxx];
+        
+        FileListViewController *fileListViewController = [[FileListViewController alloc] init];
+        fileListViewController.previewFileModel = fileModel;
+        
+        [navigation setViewControllers:@[viewController, fileListViewController] animated:YES];
+    });
 }
-#endif
+
 
 
 - (void)getPreviewController {

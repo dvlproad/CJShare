@@ -31,19 +31,20 @@ static NSString *CJFMDBFileName = @"CJFMDBFileName";
 
 #pragma mark - 创建数据库、数据表
 /** 完整的描述请参见文件头部 */
-- (BOOL)copyBundleDatabase:(NSString *)databaseName
-        toSubDirectoryPath:(NSString *)subDirectoryPath
-           ifExistDoAction:(CJFMDBFileExistActionType)FMDBFileExistAction
+- (BOOL)createDatabaseWithName:(NSString *)databaseName
+            toSubDirectoryPath:(NSString *)subDirectoryPath
+          byCopyBundleDatabase:(NSString *)bundleDatabaseName
+               ifExistDoAction:(CJFMDBFileExistActionType)FMDBFileExistAction
 {
-    NSString *databasePath = [[NSBundle mainBundle] pathForResource:databaseName ofType:nil];
+    NSString *databasePath = [self setDatabaseName:databaseName subDirectoryPath:subDirectoryPath];
     if ([[NSFileManager defaultManager] fileExistsAtPath:databasePath]) {
         if (FMDBFileExistAction == CJFMDBFileExistActionTypeShowError) {
             NSAssert(NO, @"复制mainBundle中的数据库到指定目录失败，因为该目录已存在同名文件%@ !", databasePath);
             return NO;
             
         } else if (FMDBFileExistAction == CJFMDBFileExistActionTypeUseOld) {
-            NSLog(@"复制数据库到指定目录失败，因为该目录已存在同名文件%@ !，故不重复创建，继续使用之前的", databasePath);
-            return NO;
+            //NSLog(@"该目录已存在同名文件%@ !，故不重复创建，继续使用之前的", databasePath);
+            return YES;
             
         } else if (FMDBFileExistAction == CJFMDBFileExistActionTypeRerecertIt) {
             [self deleteCurrentFMDBFile];
@@ -53,7 +54,8 @@ static NSString *CJFMDBFileName = @"CJFMDBFileName";
     
     //复制文件到我们指定的目录
     NSError *error = nil;
-    BOOL copySuccess = [[NSFileManager defaultManager] copyItemAtPath:databasePath toPath:databasePath error:&error];
+    NSString *bunldeDatabasePath = [[NSBundle mainBundle] pathForResource:bundleDatabaseName ofType:nil];
+    BOOL copySuccess = [[NSFileManager defaultManager] copyItemAtPath:bunldeDatabasePath toPath:databasePath error:&error];
     if (copySuccess) {
         NSLog(@"复制数据库文件到指定目录%@成功", databasePath);
     } else {
@@ -61,16 +63,6 @@ static NSString *CJFMDBFileName = @"CJFMDBFileName";
     }
     
     return copySuccess;
-}
-
-/** 完整的描述请参见文件头部 */
-- (void)recopyDatabase {
-    CJFMDBFileDeleteResult *deleteResult = [self deleteCurrentFMDBFile];
-    
-    NSString *subDirectoryPath = deleteResult.deleteFileInDirectoryName;
-    NSString *fileName = deleteResult.deleteFileName;
-    
-    [self copyBundleDatabase:fileName toSubDirectoryPath:subDirectoryPath ifExistDoAction:CJFMDBFileExistActionTypeRerecertIt];
 }
 
 /** 完整的描述请参见文件头部 */
@@ -86,8 +78,8 @@ static NSString *CJFMDBFileName = @"CJFMDBFileName";
             return NO;
             
         } else if (FMDBFileExistAction == CJFMDBFileExistActionTypeUseOld) {
-            NSLog(@"创建数据库到指定目录失败，因为该目录已存在同名文件%@ !，故不重复创建，继续使用之前的", databasePath);
-            return NO;
+            //NSLog(@"该目录已存在同名文件%@ !，故不重复创建，继续使用之前的", databasePath);
+            return YES;
             
         } else if (FMDBFileExistAction == CJFMDBFileExistActionTypeRerecertIt) {
             [self deleteCurrentFMDBFile];
@@ -136,7 +128,7 @@ static NSString *CJFMDBFileName = @"CJFMDBFileName";
     NSString *subDirectoryPath = self.databaseDirectory; //不使用此方法的原因：重启后内存释放会导致获取不到
     NSString *fileName = self.databaseName;
     if ([fileName length] == 0) {
-        NSLog(@"删除数据库文件时候，获取不到文件名（原因可能为重启后内存释放）,故这里改为通过plist方式获取");
+        //NSLog(@"删除数据库文件时候，获取不到文件名（原因可能为重启后内存释放）,故这里改为通过plist方式获取");
         
         NSString *currentFMDBFileManagerName = NSStringFromClass([self class]);
         NSString *subDirectoryPathKey = [NSString stringWithFormat:@"%@_%@", currentFMDBFileManagerName, CJFMDBFileDirectory];
@@ -155,9 +147,6 @@ static NSString *CJFMDBFileName = @"CJFMDBFileName";
         deleteFileSuccess = YES;
         
     } else {
-        //    NSString *filePath = [CJFileManager getFilePathWithFileName:fileName
-        //                                               subDirectoryPath:subDirectoryPath
-        //                                          inSearchPathDirectory:NSDocumentDirectory];
         NSString *filePath = [self getDatabasePathWithName:fileName
                                           subDirectoryPath:subDirectoryPath];
         if ([filePath length] == 0) {
@@ -345,7 +334,10 @@ static NSString *CJFMDBFileName = @"CJFMDBFileName";
 
 - (NSString *)getDatabasePathWithName:(NSString *)databaseName
                      subDirectoryPath:(NSString *)subDirectoryPath {
-    NSString *databaseDirectory = [CJFileManager getDirectoryPathBySubDirectoryPath:subDirectoryPath inSearchPathDirectory:NSDocumentDirectory createIfNoExist:YES];
+    NSString *databaseDirectory = [CJFileManager getLocalDirectoryPathType:CJLocalPathTypeAbsolute
+                                                        bySubDirectoryPath:subDirectoryPath
+                                                     inSearchPathDirectory:NSDocumentDirectory
+                                                           createIfNoExist:YES];
     NSString *databasePath = [databaseDirectory stringByAppendingPathComponent:databaseName];
     //NSLog(@"数据库路径 = %@", databasePath);
     

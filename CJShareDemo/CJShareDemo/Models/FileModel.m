@@ -10,31 +10,36 @@
 
 @implementation FileModel
 
-- (NSString *)fileUrlFull {
-    if ([self.fileType integerValue] == CJFileTypeLocal) {
-        NSString *home = NSHomeDirectory();
-        NSString *string = [NSString stringWithFormat:@"%@/Documents/Inbox/%@", home, self.fileUrl];
+- (NSURL *)fileValidURL {
+    if (self.fileSourceType == CJFileSourceTypeNetwork) {
+        NSURL *URL = [NSURL URLWithString:self.networkReturnUrl];
+        return URL;
         
-        return string;
     } else {
-        //NSURL *URL = [NetworkClient urlForString:self.fileUrl];
-        NSURL *URL = [NSURL URLWithString:self.fileUrl];
-        NSString *string = [URL absoluteString];
-        return string;
+        NSURL *URL = [NSURL fileURLWithPath:self.localAbsolutePath];
+        
+        return URL;
     }
-    
 }
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{
+    return @{@"localRelativePath":  @"localRelativePath",
+             @"networkReturnUrl":   @"networkReturnUrl",
+             
+             @"fileName":       @"fileName",
+             @"fileExtension":  @"fileExtension",
+             @"fileSize":       @"fileSize",
+             
              @"networkId":  @"id",
              @"fileId":     @"infoId",
-             @"fileName":   @"originalName",
-             @"fileUrl":    @"url",
-             @"fileSize":   @"size",
              @"status":     @"status",
              };
 }
+
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+    return YES;
+}
+
 //
 //+ (NSValueTransformer *)leaderJSONTransformer {
 //    return [MTLValueTransformer mtl_JSONDictionaryTransformerWithModelClass:[HPStaffEntity class]];
@@ -43,7 +48,7 @@
 
 - (UIImage *)fileIconForType {
     NSString *name = @"cjFileTypeWord";
-    NSString *t = [self.type lowercaseString];
+    NSString *t = [self.fileExtension lowercaseString];
     if ([t isEqualToString:@"doc"] || [t isEqualToString:@"docx"]) {
         name = @"cjFileTypeWord";
     } else if ([t isEqualToString:@"xls"] || [t isEqualToString:@"xlsx"]) {
@@ -75,12 +80,12 @@
 }
 
 - (BOOL)isSoundFile {
-    NSString *t = [self.type lowercaseString];
+    NSString *t = [self.fileExtension lowercaseString];
     return [t isEqualToString:@"aac"] || [t isEqualToString:@"arm"] || [t isEqualToString:@"mp3"];
 }
 
 - (BOOL)isImageFile {
-    NSString *t = [self.type lowercaseString];
+    NSString *t = [self.fileExtension lowercaseString];
     return [t isEqualToString:@"jpg"] || [t isEqualToString:@"jpeg"] || [t isEqualToString:@"png"];
 }
 
