@@ -86,14 +86,32 @@ typedef NS_ENUM(NSUInteger, CJFMDBFileExistActionType) {
 - (BOOL)deleteCurrentFMDBDirectory;
 
 #pragma mark - 数据库表操作
-- (BOOL)create:(NSString *)sql;
-
-- (BOOL)insert:(NSString *)sql;
-
-- (BOOL)remove:(NSString *)sql;
-
-- (BOOL)update:(NSString *)sql;
-
+/**
+ *  查询数据表（暂未把查询的语句放到和cjExecuteUpdate一起）
+ *
+ *  @param sql  查询的语句
+ *
+ *  return  查询结果
+ */
 - (NSMutableArray *)query:(NSString *)sql;
+
+/**
+ *  执行sqls语句
+ *
+ *  @param sqls             要执行的sql语句
+ *
+ *  return  是否执行成功
+ */
+- (BOOL)cjExecuteUpdate:(NSArray<NSString *> *)sqls;
+
+/**
+ *  执行sqls语句
+ *
+ *  @param sqls             要执行的sql语句
+ *  @param useTransaction   是否使用事务
+ *
+ *  return  是否执行成功
+ */
+- (BOOL)cjExecuteUpdate:(NSArray<NSString *> *)sqls useTransaction:(BOOL)useTransaction;
 
 @end

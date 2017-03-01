@@ -23,8 +23,9 @@
 
 
 #pragma mark - LocalFile
-+ (BOOL)insertLocalSandboxFileInfo:(FileModel *)info;
-+ (BOOL)insertLocalBundleFileInfo:(FileModel *)info;
++ (BOOL)insertLocalSandboxFileInfos:(NSArray<FileModel *> *)infos useTransaction:(BOOL)useTransaction;
++ (BOOL)insertLocalBundleFileInfos:(NSArray<FileModel *> *)infos useTransaction:(BOOL)useTransaction;
+
 + (NSMutableArray<FileModel *> *)selectLocalInfos;
 + (FileModel *)selectLocalInfoWhereLocalRelativePath:(NSString *)localRelativePath;
 + (BOOL)deleteLocalInfoWhereLocalRelativePath:(NSString *)localRelativePath;

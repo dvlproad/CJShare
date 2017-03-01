@@ -30,9 +30,22 @@
         [CJFileFMDBFileManager createDatabaseForUserName:@"dvlproadFile.db"];
         
         NSArray<FileModel *> *files = [TestDataUtil getTestLocalFilesInBundle];
+        NSMutableArray *sqls = [[NSMutableArray alloc] init];
         for (FileModel *file in files) {
-            [CJFileFMDBFileManager insertLocalBundleFileInfo:file];
+            file.fileSourceType = CJFileSourceTypeLocalBundle;
+            NSString *sql = [CJLocalFileTableSQL sqlForInsertInfo:file];
+            [sqls addObject:sql];
         }
+        
+        for (NSInteger i = 0; i < 10; i++) {
+            NSLog(@"-----------------------");
+            [CJFileFMDBFileManager insertLocalBundleFileInfos:files useTransaction:NO];
+            [CJFileFMDBFileManager insertLocalBundleFileInfos:files useTransaction:YES];
+            
+            [[CJFileFMDBFileManager sharedInstance] cjExecuteUpdate:sqls useTransaction:YES];
+            [[CJFileFMDBFileManager sharedInstance] cjExecuteUpdate:sqls useTransaction:NO];
+        }
+        
         
         dispatch_async(dispatch_get_main_queue(), ^{
             //更新界面
@@ -150,7 +163,7 @@
 }
 
 - (void)application:(UIApplication *)application goFileListViewControllerAndOpenFileModel:(FileModel *)fileModel {
-    BOOL insertSuccess = [CJFileFMDBFileManager insertLocalSandboxFileInfo:fileModel];
+    BOOL insertSuccess = [CJFileFMDBFileManager insertLocalSandboxFileInfos:@[fileModel] useTransaction:YES];
     if (insertSuccess) {
         NSString *messge = [NSString stringWithFormat:@"已成功添加《%@》为附件到我的文档", fileModel.fileName];
         NSLog(@"message = %@", messge);

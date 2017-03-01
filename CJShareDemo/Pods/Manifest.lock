@@ -2,7 +2,7 @@ PODS:
   - CJBaseSearchViewController (0.0.3):
     - CJSortedAndSearchUtil (~> 0.0.3)
     - NSOperationQueueUtil (~> 0.0.1)
-  - CJFMDBFileManager (1.0.1):
+  - CJFMDBFileManager (1.1.0):
     - FMDB (~> 2.6.2)
   - CJSortedAndSearchUtil (0.0.3):
     - PinYin4Objc (~> 1.1.1)
@@ -25,14 +25,14 @@ PODS:
 
 DEPENDENCIES:
   - CJBaseSearchViewController (~> 0.0.3)
-  - CJFMDBFileManager (~> 1.0.1)
+  - CJFMDBFileManager (~> 1.1.0)
   - JSONModel (~> 1.7.0)
   - MWPhotoBrowser (~> 2.1.2)
   - PureLayout (~> 3.0.2)
 
 SPEC CHECKSUMS:
   CJBaseSearchViewController: 46e97c1339d57c7d7f98eb411ee692e7711f1c3b
-  CJFMDBFileManager: beada70b966d1dd04717b5a6a175a022d74fc187
+  CJFMDBFileManager: ce994ffe1b97d6c34979c18e7179e0936cd70966
   CJSortedAndSearchUtil: e341a542879ca08e6d79e57cbd6ebebe2891ed8b
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
@@ -44,6 +44,6 @@ SPEC CHECKSUMS:
   PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: 39d310b621f40e487e3d6555e0bdbc4b246856f9
+PODFILE CHECKSUM: c632dfc2311ae1bf4a1c9d804a9b660886c1f98f
 
 COCOAPODS: 1.1.0.rc.2

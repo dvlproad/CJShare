@@ -62,18 +62,26 @@
 }
 
 #pragma mark - LocalFile
-+ (BOOL)insertLocalSandboxFileInfo:(FileModel *)info {
-    info.fileSourceType = CJFileSourceTypeLocalSandbox;
-    NSString *sql = [CJLocalFileTableSQL sqlForInsertInfo:info];
++ (BOOL)insertLocalSandboxFileInfos:(NSArray<FileModel *> *)infos useTransaction:(BOOL)useTransaction {
+    NSMutableArray *sqls = [[NSMutableArray alloc] init];
+    for (FileModel *info in infos) {
+        info.fileSourceType = CJFileSourceTypeLocalSandbox;
+        NSString *sql = [CJLocalFileTableSQL sqlForInsertInfo:info];
+        [sqls addObject:sql];
+    }
     
-    return [[CJFileFMDBFileManager sharedInstance] insert:sql];
+    return [[CJFileFMDBFileManager sharedInstance] cjExecuteUpdate:sqls useTransaction:useTransaction];
 }
 
-+ (BOOL)insertLocalBundleFileInfo:(FileModel *)info {
-    info.fileSourceType = CJFileSourceTypeLocalBundle;
-    NSString *sql = [CJLocalFileTableSQL sqlForInsertInfo:info];
++ (BOOL)insertLocalBundleFileInfos:(NSArray<FileModel *> *)infos useTransaction:(BOOL)useTransaction {
+    NSMutableArray *sqls = [[NSMutableArray alloc] init];
+    for (FileModel *info in infos) {
+        info.fileSourceType = CJFileSourceTypeLocalBundle;
+        NSString *sql = [CJLocalFileTableSQL sqlForInsertInfo:info];
+        [sqls addObject:sql];
+    }
     
-    return [[CJFileFMDBFileManager sharedInstance] insert:sql];
+    return [[CJFileFMDBFileManager sharedInstance] cjExecuteUpdate:sqls useTransaction:useTransaction];
 }
 
 + (NSMutableArray<FileModel *> *)selectLocalInfos {
@@ -112,14 +120,14 @@
 + (BOOL)deleteLocalInfoWhereLocalRelativePath:(NSString *)localRelativePath {
     NSString *sql = [CJLocalFileTableSQL sqlForDeleteInfoWhereUniqueId:localRelativePath];
     
-    return [[CJFileFMDBFileManager sharedInstance] remove:sql];
+    return [[CJFileFMDBFileManager sharedInstance] cjExecuteUpdate:@[sql]];
 }
 
 #pragma mark - NetworkFile
 + (BOOL)insertNetworkFileInfo:(FileModel *)info {
     NSString *sql = [CJNetworkFileTableSQL sqlForInsertInfo:info];
     
-    return [[CJFileFMDBFileManager sharedInstance] insert:sql];
+    return [[CJFileFMDBFileManager sharedInstance] cjExecuteUpdate:@[sql]];
 }
 
 + (NSMutableArray<FileModel *> *)selectNetworkInfos {
@@ -160,7 +168,7 @@
 + (BOOL)deleteNetworkInfoWhereNetworkReturnUrl:(NSString *)networkReturnUrl {
     NSString *sql = [CJNetworkFileTableSQL sqlForDeleteInfoWhereUniqueId:networkReturnUrl];
     
-    return [[CJFileFMDBFileManager sharedInstance] remove:sql];
+    return [[CJFileFMDBFileManager sharedInstance] cjExecuteUpdate:@[sql]];
 }
 
 @end

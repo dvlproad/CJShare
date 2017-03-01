@@ -162,31 +162,6 @@
 
 
 #pragma mark - 数据库表操作
-- (BOOL)create:(NSString *)sql {
-    NSAssert(sql, @"sql cannot be nil!");
-    
-    return [self executeUpdate:sql args:nil];
-}
-
-
-- (BOOL)insert:(NSString *)sql {
-    NSAssert(sql, @"sql cannot be nil!");
-    
-    return [self executeUpdate:sql args:nil];
-}
-
-- (BOOL)remove:(NSString *)sql {
-    NSAssert(sql, @"sql cannot be nil!");
-    
-    return [self executeUpdate:sql args:nil];
-}
-
-- (BOOL)update:(NSString *)sql {
-    NSAssert(sql, @"sql cannot be nil!");
-    
-    return [self executeUpdate:sql args:nil];
-}
-
 - (NSMutableArray *)query:(NSString *)sql
 {
     NSAssert(sql, @"sql cannot be nil!");
@@ -194,40 +169,102 @@
     NSMutableArray *result = [[NSMutableArray alloc] init];
     
     FMDatabase *db = [FMDatabase databaseWithPath:self.fileAbsolutePath];
-    
-    if ([db open]) {
-        FMResultSet *rs = [db executeQuery:sql];
-        while ([rs next]) {
-            [result addObject:[rs resultDictionary]];
-        }
-        
-        [db close];
+    BOOL isOpenSuccess = [db open];
+    if (!isOpenSuccess) {
+        NSLog(@"打开数据库失败");
+        return nil;
     }
     
+    FMResultSet *rs = [db executeQuery:sql];
+    while ([rs next]) {
+        [result addObject:[rs resultDictionary]];
+    }
+    
+    [db close];
     db = nil;
     
     return result;
 }
 
+/** 完整的描述请参见文件头部 */
+- (BOOL)cjExecuteUpdate:(NSArray<NSString *> *)sqls {
+    return [self executeUpdate:sqls args:nil useTransaction:NO];
+}
 
+/** 完整的描述请参见文件头部 */
+- (BOOL)cjExecuteUpdate:(NSArray<NSString *> *)sqls useTransaction:(BOOL)useTransaction {
+    return [self executeUpdate:sqls args:nil useTransaction:useTransaction];
+}
 
 #pragma mark - private method
 
-- (BOOL)executeUpdate:(NSString *)sql args:(NSArray *)args
+- (BOOL)executeUpdate:(NSArray<NSString *> *)sqls args:(NSArray *)args useTransaction:(BOOL)useTransaction
 {
-    BOOL success = NO;
-    
     FMDatabase *db = [FMDatabase databaseWithPath:self.fileAbsolutePath];
-    
-    if ([db open]) {
-        success = [db executeUpdate:sql withArgumentsInArray:args];
-        
-        [db close];
+    BOOL isOpenSuccess = [db open];
+    if (!isOpenSuccess) {
+        NSLog(@"打开数据库失败");
+        return NO;
     }
+    
+    //数据库打开成功的前提下
+    BOOL findExecuteFailure = NO;
+    if (useTransaction) {
+        NSDate *dateBeigin = [NSDate date];
+        
+        [db beginTransaction];
+        BOOL isRollBack = NO;   //是否回滚到最初状态
+        @try {
+            findExecuteFailure = [self doSql:sqls inDatabase:db];
+            
+        } @catch (NSException *exception) {
+            isRollBack = YES;
+            [db rollback];
+            
+        } @finally {
+            if (!isRollBack) {
+                [db commit];
+            }
+        }
+        
+        NSDate *dateEnd = [NSDate date];
+        NSTimeInterval timeInterval = [dateEnd timeIntervalSince1970] - [dateBeigin timeIntervalSince1970];
+        NSLog(@"  使用事务用时%.6lf秒", timeInterval);
+        
+    }else{
+        NSDate *dateBeigin = [NSDate date];
+        
+        findExecuteFailure = [self doSql:sqls inDatabase:db];
+        
+        NSDate *dateEnd = [NSDate date];
+        NSTimeInterval timeInterval = [dateEnd timeIntervalSince1970] - [dateBeigin timeIntervalSince1970];
+        NSLog(@"不使用事务用时%.6lf秒", timeInterval);
+        
+    }
+    
+    [db close];
     
     db = nil;
     
-    return success;
+    return findExecuteFailure;
+}
+
+- (BOOL)doSql:(NSArray<NSString *> *)sqls inDatabase:(FMDatabase *)db {
+    BOOL findExecuteFailure = NO;
+    
+    NSInteger sqlCount = sqls.count;
+    for (NSInteger i = 0; i < sqlCount; i++) {
+        NSString *sql = [sqls objectAtIndex:i];
+        NSAssert(sql, @"sql cannot be nil!");
+        
+        BOOL executeSuccess = [db executeUpdate:sql withArgumentsInArray:nil];
+        if (executeSuccess == NO) {
+            findExecuteFailure = YES;
+            NSLog(@"第%zd条%@执行失败", i, sql);
+        }
+    }
+
+    return findExecuteFailure;
 }
 
 #pragma mark - Setter
