@@ -3,7 +3,7 @@ platform :ios, '7.0'
 
 target 'CJShareDemo' do
     pod 'CJBaseSearchViewController', '~> 0.0.3'    #已包含pod 'CJSortedAndSearchUtil', '~> 0.0.3'
-    pod 'CJFMDBFileManager', '~> 0.0.9'
+    pod 'CJFMDBFileManager', '~> 1.0.1'
     pod 'JSONModel', '~> 1.7.0'
     pod 'PureLayout', '~> 3.0.2'
     

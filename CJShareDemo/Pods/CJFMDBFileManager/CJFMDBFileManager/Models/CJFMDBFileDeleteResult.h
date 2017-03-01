@@ -11,7 +11,6 @@
 @interface CJFMDBFileDeleteResult : NSObject
 
 @property (nonatomic, assign) BOOL success;
-@property (nonatomic, copy) NSString *deleteFileName;
-@property (nonatomic, copy) NSString *deleteFileInDirectoryName;
+@property (nonatomic, copy) NSString *fileRelativePath;
 
 @end

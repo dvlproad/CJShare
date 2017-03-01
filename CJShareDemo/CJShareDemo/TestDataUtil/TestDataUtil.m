@@ -25,6 +25,20 @@
     imageFile.localRelativePath = [[[NSBundle mainBundle] URLForResource:@"Image Document" withExtension:@"jpg"] absoluteString];
     imageFile.createTime = fileCreateTime;
     
+    FileModel *wordFile = [[FileModel alloc] init];
+    wordFile.fileSourceType = fileSourceType;
+    wordFile.fileName = @"Word Document.doc";
+    //wordFile.fileUrl = [[NSBundle mainBundle] pathForResource:@"Word Document" ofType:@"jpg"];
+    wordFile.localRelativePath = [[[NSBundle mainBundle] URLForResource:@"Word Document" withExtension:@"doc"] absoluteString];
+    wordFile.createTime = fileCreateTime;
+    
+    FileModel *excelFile = [[FileModel alloc] init];
+    excelFile.fileSourceType = fileSourceType;
+    excelFile.fileName = @"Excel Document.xlsx";
+    //excelFile.fileUrl = [[NSBundle mainBundle] pathForResource:@"Excel Document" ofType:@"jpg"];
+    excelFile.localRelativePath = [[[NSBundle mainBundle] URLForResource:@"Excel Document" withExtension:@"xlsx"] absoluteString];
+    excelFile.createTime = fileCreateTime;
+    
     FileModel *PDFFile = [[FileModel alloc] init];
     PDFFile.fileSourceType = fileSourceType;
     PDFFile.fileName = @"PDF Document.pdf";
@@ -46,7 +60,7 @@
     HTMLFile.localRelativePath = [[[NSBundle mainBundle] URLForResource:@"HTML Document" withExtension:@"html"] absoluteString];
     HTMLFile.createTime = fileCreateTime;
     
-    return @[imageFile, PDFFile, TextFile, HTMLFile];
+    return @[imageFile, wordFile, excelFile, PDFFile, TextFile, HTMLFile];
 }
 
 @end

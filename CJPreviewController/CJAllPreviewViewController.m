@@ -79,9 +79,8 @@
         browser.enableSwipeToDismiss = YES;
         [browser setCurrentPhotoIndex:photoIndex];
         
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:browser];
         //[belongViewController.navigationController pushViewController:self.previewController animated:YES];
-        return navigationController;
+        return browser;
         
     } else if (previewFileModel.fileSourceType == CJFileSourceTypeLocalSandbox ||
                previewFileModel.fileSourceType == CJFileSourceTypeLocalBundle) {

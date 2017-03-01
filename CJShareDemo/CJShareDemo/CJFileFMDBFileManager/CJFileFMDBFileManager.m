@@ -32,14 +32,16 @@
         databaseName = [NSString stringWithFormat:@"%@.db", userName];
     }
     
-    __weak typeof(self)weakSelf = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray *createTableSqls = [weakSelf allCreateTableSqls];
-        [[CJFileFMDBFileManager sharedInstance] createDatabaseWithName:databaseName
-                                                subDirectoryPath:@"FileManager"
-                                                 createTableSqls:createTableSqls
-                                                 ifExistDoAction:CJFMDBFileExistActionTypeRerecertIt];
-    });
+    //创建数据库
+    NSString *directoryRelativePath =
+    [CJFileManager getLocalDirectoryPathType:CJLocalPathTypeRelative
+                          bySubDirectoryPath:@"FileManager"
+                       inSearchPathDirectory:NSDocumentDirectory
+                             createIfNoExist:YES];
+    NSString *fileRelativePath = [directoryRelativePath stringByAppendingPathComponent:databaseName];
+    
+    NSArray *createTableSqls = [self allCreateTableSqls];
+    [[CJFileFMDBFileManager sharedInstance] createDatabaseInFileRelativePath:fileRelativePath byCreateTableSqls:createTableSqls ifExistDoAction:CJFMDBFileExistActionTypeRerecertIt];
 }
 
 + (NSArray *)allCreateTableSqls {

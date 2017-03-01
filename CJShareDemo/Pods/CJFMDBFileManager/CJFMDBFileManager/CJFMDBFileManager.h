@@ -7,6 +7,7 @@
 //
 
 #import "CJFileManager.h"
+#import <FMDB/FMDB.h>
 #import "CJFMDBFileDeleteResult.h"
 
 typedef NS_ENUM(NSUInteger, CJFMDBFileExistActionType) {
@@ -15,14 +16,15 @@ typedef NS_ENUM(NSUInteger, CJFMDBFileExistActionType) {
     CJFMDBFileExistActionTypeRerecertIt,
 };
 
+
 /**
  *  数据库文件管理类（每个数据库的管理类都必须继承此类，并实现单例方法）
  */
 @interface CJFMDBFileManager : CJFileManager {
     
 }
-@property (nonatomic, copy, readonly) NSString *databaseDirectory;
-@property (nonatomic, copy, readonly) NSString *databaseName;
+@property (nonatomic, copy, readonly) NSString *fileRelativePath;   /**< 当前数据库的相对路径 */
+
 
 /**
  *  取消对任何数据库的管理（账号切换的时候使用,即重新登录的时候）
@@ -31,41 +33,42 @@ typedef NS_ENUM(NSUInteger, CJFMDBFileExistActionType) {
 
 #pragma mark - 创建数据库、数据表
 /**
- *  复制数据库到某个目录下
+ *  在指定目录创建数据库
  *
- *  @param databaseName         新建的数据库的名字
- *  @param subDirectoryPath     复制数据库到哪里
- *  @param bundleDatabaseName   要复制的数据库的名字
- *  @param FMDBFileExistAction  如果存在执行什么操作
+ *  @param fileRelativePath     指定的目录的路径(可通过CJFileManager的
+                                getLocalDirectoryPathType:CJLocalPathTypeRelative...获得)
+ *  @param copyDatabasePath     要复制的数据库的路径
+ *  @param FMDBFileExistAction  如果该指定目录存在则执行什么操作
  *
- *  return  是否新建成功
+ *  return 是否创建成功
  */
-- (BOOL)createDatabaseWithName:(NSString *)databaseName
-            toSubDirectoryPath:(NSString *)subDirectoryPath
-          byCopyBundleDatabase:(NSString *)bundleDatabaseName
-               ifExistDoAction:(CJFMDBFileExistActionType)FMDBFileExistAction;
+- (BOOL)createDatabaseInFileRelativePath:(NSString *)fileRelativePath
+                      byCopyDatabasePath:(NSString *)copyDatabasePath
+                         ifExistDoAction:(CJFMDBFileExistActionType)FMDBFileExistAction;
 
 /**
- *  创建数据库
+ *  在指定目录创建数据库
  *
- *  @param databaseName         数据库名字
- *  @param subDirectoryPath     数据库所在目录
- *  @param createTableSqls      数据表的创建语句
- *  @param FMDBFileExistAction  如果存在执行什么操作
+ *  @param fileRelativePath     指定的目录的路径(可通过CJFileManager的
+                                getLocalDirectoryPathType:CJLocalPathTypeRelative...获得)
+ *  @param createTableSqls      创建数据表的sql
+ *  @param FMDBFileExistAction  如果该指定目录存在则执行什么操作
  *
- *  return  是否新建成功
+ *  return 是否创建成功
  */
-- (BOOL)createDatabaseWithName:(NSString *)databaseName
-              subDirectoryPath:(NSString *)subDirectoryPath
-               createTableSqls:(NSArray<NSString *> *)createTableSqls
-               ifExistDoAction:(CJFMDBFileExistActionType)FMDBFileExistAction;
+- (BOOL)createDatabaseInFileRelativePath:(NSString *)fileRelativePath
+                       byCreateTableSqls:(NSArray<NSString *> *)createTableSqls
+                         ifExistDoAction:(CJFMDBFileExistActionType)FMDBFileExistAction;
+
 
 /**
  *  重新创建新数据库（新数据库的数据库名和位置和原来的一样）
  *
  *  @param createTableSqls      新数据库数据表的创建语句
+ *
+ *  return 是否重建成功
  */
-- (void)recreateDatabase:(NSArray<NSString *> *)createTableSqls;
+- (BOOL)recreateDatabase:(NSArray<NSString *> *)createTableSqls;
 
 #pragma mark - 删除数据库目录/数据库文件
 /**

@@ -22,6 +22,8 @@
 		786228251E11115E0088E94E /* PreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 786228231E11115E0088E94E /* PreviewController.xib */; };
 		786228291E1115570088E94E /* FileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 786228271E1115570088E94E /* FileListViewController.m */; };
 		7862282A1E1115570088E94E /* FileListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 786228281E1115570088E94E /* FileListViewController.xib */; };
+		7863038C1E66CA6800C2FB2B /* Excel Document.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 7863038A1E66CA6800C2FB2B /* Excel Document.xlsx */; };
+		7863038D1E66CA6800C2FB2B /* Word Document.doc in Resources */ = {isa = PBXBuildFile; fileRef = 7863038B1E66CA6800C2FB2B /* Word Document.doc */; };
 		78B41A041E6563590017D133 /* CJFileFMDBFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B419FA1E6563590017D133 /* CJFileFMDBFileManager.m */; };
 		78B41A051E6563590017D133 /* CJLocalFileTableSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B419FC1E6563590017D133 /* CJLocalFileTableSQL.m */; };
 		78B41A061E6563590017D133 /* CJNetworkFileTableSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B419FE1E6563590017D133 /* CJNetworkFileTableSQL.m */; };
@@ -84,6 +86,8 @@
 		786228261E1115570088E94E /* FileListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileListViewController.h; sourceTree = "<group>"; };
 		786228271E1115570088E94E /* FileListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileListViewController.m; sourceTree = "<group>"; };
 		786228281E1115570088E94E /* FileListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileListViewController.xib; sourceTree = "<group>"; };
+		7863038A1E66CA6800C2FB2B /* Excel Document.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Excel Document.xlsx"; sourceTree = "<group>"; };
+		7863038B1E66CA6800C2FB2B /* Word Document.doc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Word Document.doc"; sourceTree = "<group>"; };
 		78B419F91E6563590017D133 /* CJFileFMDBFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJFileFMDBFileManager.h; sourceTree = "<group>"; };
 		78B419FA1E6563590017D133 /* CJFileFMDBFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJFileFMDBFileManager.m; sourceTree = "<group>"; };
 		78B419FB1E6563590017D133 /* CJLocalFileTableSQL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJLocalFileTableSQL.h; sourceTree = "<group>"; };
@@ -319,6 +323,8 @@
 				78C964C01E12083F00265009 /* Image Document.jpg */,
 				78C964C11E12083F00265009 /* PDF Document.pdf */,
 				78C964C21E12083F00265009 /* Text Document.txt */,
+				7863038A1E66CA6800C2FB2B /* Excel Document.xlsx */,
+				7863038B1E66CA6800C2FB2B /* Word Document.doc */,
 			);
 			path = Document;
 			sourceTree = "<group>";
@@ -468,6 +474,8 @@
 				78D36B9B1E274CC500F51567 /* cjFileTypeImage@2x.png in Resources */,
 				786227F61E110CA30088E94E /* Assets.xcassets in Resources */,
 				786227F41E110CA30088E94E /* Main.storyboard in Resources */,
+				7863038D1E66CA6800C2FB2B /* Word Document.doc in Resources */,
+				7863038C1E66CA6800C2FB2B /* Excel Document.xlsx in Resources */,
 				78C964C61E12083F00265009 /* Text Document.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -696,7 +704,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -739,7 +747,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
